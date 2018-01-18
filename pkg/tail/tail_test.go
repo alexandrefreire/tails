@@ -22,3 +22,12 @@ func TestCompareToSelf(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestCompareSameId(t *testing.T) {
+	t1 := Tail{10, URGENT, time.Now()}
+	t2 := Tail{10, URGENT, time.Now()}
+
+	if t1.Compare(t2) != 0 {
+		t.Fail()
+	}
+}
