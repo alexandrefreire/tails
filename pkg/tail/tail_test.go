@@ -39,6 +39,13 @@ func TestPriorityDifferences(t *testing.T) {
 	lessThan(t8, t7, t)
 }
 
+func TestContactTimeDifferences(t *testing.T) {
+	lessThan(
+		Tail{5, URGENT, now},
+		Tail{6, URGENT, now.Add(time.Minute)},
+		t)
+}
+
 func equals(t1, t2 Tail, t *testing.T) {
 	if t1.Compare(t2) != 0 {
 		t.Fail()
