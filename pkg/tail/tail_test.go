@@ -17,8 +17,9 @@ import (
 
 var now = time.Now()
 var t10 = Tail{10, URGENT, now}
-var t9 = Tail{9, REQUESTING, now}
-var t8 = Tail{8, IMPORTANT, now}
+var t9 = Tail{9, IMPORTANT, now}
+var t8 = Tail{8, REQUESTING, now}
+var t7 = Tail{7, DISMISSED, now}
 
 func TestCompareToSelf(t *testing.T) {
 	equals(t10, t10, t)
@@ -33,7 +34,9 @@ func TestCompareSameIdDifferentPriority(t *testing.T) {
 }
 
 func TestPriorityDifferences(t *testing.T) {
-	lessThan(t8, t9, t)
+	lessThan(t10, t9, t)
+	lessThan(t9, t8, t)
+	lessThan(t8, t7, t)
 }
 
 func equals(t1, t2 Tail, t *testing.T) {
