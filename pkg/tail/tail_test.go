@@ -15,28 +15,27 @@ import (
 	"time"
 )
 
-func TestCompareToSelf(t *testing.T) {
-	tail := Tail{10, URGENT, time.Now()}
+var t10 = Tail{10, URGENT, time.Now()}
 
-	if tail.Compare(tail) != 0 {
+func TestCompareToSelf(t *testing.T) {
+
+	if t10.Compare(t10) != 0 {
 		t.Fail()
 	}
 }
 
 func TestCompareSameId(t *testing.T) {
-	t1 := Tail{10, URGENT, time.Now()}
-	t2 := Tail{10, URGENT, time.Now()}
+	t10_dup := Tail{10, URGENT, time.Now()}
 
-	if t1.Compare(t2) != 0 {
+	if t10.Compare(t10_dup) != 0 {
 		t.Fail()
 	}
 }
 
 func TestCompareSameIdDifferentPriority(t *testing.T) {
-	t1 := Tail{10, URGENT, time.Now()}
-	t2 := Tail{10, DISMISSED, time.Now()}
+	t10_dif := Tail{10, DISMISSED, time.Now().Add(time.Minute)}
 
-	if t1.Compare(t2) != 0 {
+	if t10.Compare(t10_dif) != 0 {
 		t.Fail()
 	}
 }
