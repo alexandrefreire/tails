@@ -41,8 +41,8 @@ func TestPriorityDifferences(t *testing.T) {
 
 func TestContactTimeDifferences(t *testing.T) {
 	lessThan(
-		Tail{5, URGENT, now},
-		Tail{6, URGENT, now.Add(time.Minute)},
+		Tail{6, URGENT, now},
+		Tail{5, URGENT, now.Add(time.Minute)},
 		t)
 }
 

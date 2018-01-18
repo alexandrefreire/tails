@@ -35,12 +35,12 @@ func (me Tail) Compare(other Tail) int {
 	if me.Priority > other.Priority {
 		return 1
 	}
-	//if me.LastContact.Before(other.LastContact) {
-	//	return -1
-	//}
-	//if me.LastContact.After(other.LastContact) {
-	//	return 1
-	//}
+	if me.LastContact.Before(other.LastContact) {
+		return -1
+	}
+	if me.LastContact.After(other.LastContact) {
+		return 1
+	}
 	if me.Id < other.Id {
 		return -1
 	}
