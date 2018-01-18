@@ -18,24 +18,22 @@ import (
 var t10 = Tail{10, URGENT, time.Now()}
 
 func TestCompareToSelf(t *testing.T) {
-
-	if t10.Compare(t10) != 0 {
-		t.Fail()
-	}
+	equals(t10, t10, t)
 }
 
 func TestCompareSameId(t *testing.T) {
-	t10_dup := Tail{10, URGENT, time.Now()}
-
-	if t10.Compare(t10_dup) != 0 {
-		t.Fail()
-	}
+	equals(t10, Tail{10, URGENT, time.Now()}, t)
 }
 
 func TestCompareSameIdDifferentPriority(t *testing.T) {
-	t10_dif := Tail{10, DISMISSED, time.Now().Add(time.Minute)}
+	equals(t10, Tail{10, DISMISSED, time.Now().Add(time.Minute)}, t)
+}
 
-	if t10.Compare(t10_dif) != 0 {
+func equals(t1, t2 Tail, t *testing.T) {
+	if t1.Compare(t2) != 0 {
+		t.Fail()
+	}
+	if t2.Compare(t1) != 0 {
 		t.Fail()
 	}
 }
