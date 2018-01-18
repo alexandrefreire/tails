@@ -15,10 +15,10 @@ import (
 	"time"
 )
 
-func TestSimpleCompare(t *testing.T) {
-	now := time.Now()
-	after := now.Add(time.Minute)
-	if now.Before(after) {
+func TestCompareToSelf(t *testing.T) {
+	tail := Tail{10, URGENT, time.Now()}
+
+	if tail.Compare(tail) != 0 {
 		t.Fail()
 	}
 }
