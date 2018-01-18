@@ -46,6 +46,13 @@ func TestContactTimeDifferences(t *testing.T) {
 		t)
 }
 
+func TestOnlyIdDifferences(t *testing.T) {
+	lessThan(
+		Tail{6, DISMISSED, now},
+		t7,
+		t)
+}
+
 func equals(t1, t2 Tail, t *testing.T) {
 	if t1.Compare(t2) != 0 {
 		t.Fail()
