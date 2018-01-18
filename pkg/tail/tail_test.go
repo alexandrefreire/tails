@@ -17,56 +17,40 @@ import (
 
 var now = time.Now()
 var t10 = Tail{10, URGENT, now}
+var t10_dup = Tail{10, URGENT, now}
+var t10_diff = Tail{10, DISMISSED, time.Now().Add(time.Minute)}
 var t9 = Tail{9, IMPORTANT, now}
 var t8 = Tail{8, REQUESTING, now}
 var t7 = Tail{7, DISMISSED, now}
+var t6 = Tail{6, URGENT, now}
+var t6_dismissed = Tail{6, DISMISSED, now}
+var t5 = Tail{5, URGENT, now.Add(time.Minute)}
 
-func TestCompareToSelf(t *testing.T) {
-	equals(t10, t10, t)
+var tailTests = []struct {
+	t1       Tail
+	t2       Tail
+	expected int
+}{
+	{t10, t10, 0},
+	{t10, t10_dup, 0},
+	{t10, t10_diff, 0},
+	{t10, t9, -1},
+	{t9, t10, 1},
+	{t9, t8, -1},
+	{t8, t9, 1},
+	{t8, t7, -1},
+	{t7, t8, 1},
+	{t6, t5, -1},
+	{t5, t6, 1},
+	{t6_dismissed, t7, -1},
+	{t7, t6_dismissed, 1},
 }
 
-func TestCompareSameId(t *testing.T) {
-	equals(t10, Tail{10, URGENT, time.Now()}, t)
-}
-
-func TestCompareSameIdDifferentPriority(t *testing.T) {
-	equals(t10, Tail{10, DISMISSED, time.Now().Add(time.Minute)}, t)
-}
-
-func TestPriorityDifferences(t *testing.T) {
-	lessThan(t10, t9, t)
-	lessThan(t9, t8, t)
-	lessThan(t8, t7, t)
-}
-
-func TestContactTimeDifferences(t *testing.T) {
-	lessThan(
-		Tail{6, URGENT, now},
-		Tail{5, URGENT, now.Add(time.Minute)},
-		t)
-}
-
-func TestOnlyIdDifferences(t *testing.T) {
-	lessThan(
-		Tail{6, DISMISSED, now},
-		t7,
-		t)
-}
-
-func equals(t1, t2 Tail, t *testing.T) {
-	if t1.Compare(t2) != 0 {
-		t.Fail()
-	}
-	if t2.Compare(t1) != 0 {
-		t.Fail()
-	}
-}
-
-func lessThan(t1, t2 Tail, t *testing.T) {
-	if t1.Compare(t2) != -1 {
-		t.Fail()
-	}
-	if t2.Compare(t1) != 1 {
-		t.Fail()
+func TestAllTheThings(t *testing.T) {
+	for _, tt := range tailTests {
+		actual := tt.t1.Compare(tt.t2)
+		if actual != tt.expected {
+			t.Errorf("Compare(%v, %v): expected %d, actual %d", tt.t1, tt.t2, tt.expected, actual)
+		}
 	}
 }
