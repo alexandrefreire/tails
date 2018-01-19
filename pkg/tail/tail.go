@@ -14,10 +14,10 @@ import (
 	"time"
 )
 
-var URGENT = 0
-var IMPORTANT = 1
-var REQUESTING = 2
-var DISMISSED = 3
+const URGENT = 0
+const IMPORTANT = 1
+const REQUESTING = 2
+const DISMISSED = 3
 
 type Tail struct {
 	Id          int
